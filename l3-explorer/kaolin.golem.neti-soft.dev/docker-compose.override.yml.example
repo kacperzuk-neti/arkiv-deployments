@@ -1,0 +1,25 @@
+services:
+  db:
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_PASSWORD: "secure_db_password"
+
+  backend:
+    environment:
+      DATABASE_URL: "postgresql://blockscout:secure_db_password@db:5432/blockscout"
+      SECRET_KEY_BASE: "secure_secret_key_base"
+
+  golem-base-indexer:
+    environment:
+      GOLEM_BASE_INDEXER__DATABASE__CONNECT__URL: "postgres://blockscout:secure_db_password@db:5432/blockscout"
+
+  stats-db:
+    environment:
+      POSTGRES_PASSWORD: "secure_db_password"
+
+  stats:
+    environment:
+      STATS__DB_URL: "postgres://stats:secure_db_password@stats-db:5432/stats"
+      STATS__BLOCKSCOUT_DB_URL: "postgres://blockscout:secure_db_password@db:5432/blockscout"
+
