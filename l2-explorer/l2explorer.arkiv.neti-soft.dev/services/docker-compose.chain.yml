@@ -33,7 +33,7 @@ services:
     volumes:
       - jwt_shared:/jwt
       - op_geth_data:/geth
-      - ./config/hoodi-genesis.json:/config/genesis.json:ro
+      - ../configs/genesis.json:/config/genesis.json:ro
 
   op-geth:
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101603.2
@@ -106,7 +106,7 @@ services:
     volumes:
       - jwt_shared:/jwt
       - op_node_data:/op-node
-      - ./config/hoodi-rollup.json:/config/rollup.json:ro
+      - ../configs/rollup.json:/config/rollup.json:ro
 
 volumes:
   jwt_shared:
