@@ -1,0 +1,114 @@
+services:
+  op-init-geth:
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101603.2
+    container_name: op-init-geth-l2
+    entrypoint: []
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+
+        # Create JWT secret if missing
+        mkdir -p /jwt
+        if [ ! -f /jwt/jwt ]; then
+          echo 'Generating JWT secret'
+          apk add --no-cache openssl >/dev/null
+          openssl rand -hex 32 > /jwt/jwt
+          chmod 666 /jwt/jwt
+          echo 'JWT secret generated successfully'
+        else
+          echo 'JWT secret already exists, skipping generation'
+        fi
+
+        # Initialize geth if missing
+        mkdir -p /geth
+        if [ ! -d "/geth/geth" ] || [ -z "$(ls -A /geth/geth)" ]; then
+          echo 'Initializing geth data directory with genesis block...'
+          geth init --state.scheme=hash --datadir='/geth' '/config/genesis.json'
+          echo 'Geth initialized successfully'
+        else
+          echo 'Geth data directory already initialized, skipping'
+        fi
+    volumes:
+      - jwt_shared:/jwt
+      - op_geth_data:/geth
+      - ./config/hoodi-genesis.json:/config/genesis.json:ro
+
+  op-geth:
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:v1.101603.2
+    restart: unless-stopped
+    stop_grace_period: 5m
+    container_name: op-geth-l2
+    depends_on:
+      op-init-geth:
+        condition: service_completed_successfully
+    command:
+      - --networkid=393530
+      - --datadir=/geth
+      - --http
+      - --http.corsdomain=*
+      - --http.vhosts=*
+      - --http.addr=0.0.0.0
+      - --http.port=8545
+      - --http.api=admin,debug,eth,txpool,net,engine,web3,txpool
+      - --ws
+      - --ws.addr=0.0.0.0
+      - --ws.port=8546
+      - --ws.origins=*
+      - --ws.api=admin,debug,eth,txpool,net,engine,web3,txpool
+      - --syncmode=full
+      - --gcmode=archive
+      - --authrpc.vhosts=*
+      - --authrpc.addr=0.0.0.0
+      - --authrpc.port=8551
+      - --authrpc.jwtsecret=/jwt/jwt
+      - --usb=false
+      - --state.scheme=hash
+      - --nat=none
+      - --bootnodes=enr:-KO4QFMRNDzjxQkzRjeS1n50iy-YwhHZL4DIdvEXS-9oLTAxEB6ZNFdHEnQrsx7h1QRXrDmWSDgnTNC8FSk4cYNldtiGAZpI78F2g2V0aMfGhHhiLCqAgmlkgnY0gmlwhI6EzuiJc2VjcDI1NmsxoQKzWxnPS3g91WbiZkJyJ3UksXRUxYW50YVMD0iHoyETioRzbmFwwIN0Y3CCs8iDdWRwgrPI,enr:-KO4QE93Of4bnurvWkeVJuVjlRy2NceyWPtXbLOxLY7nErMueWvvz0TADG48cTMWEMmX7ztU02VHG5PolkqZn28GZheGAZpI79DOg2V0aMfGhHhiLCqAgmlkgnY0gmlwhI6EzviJc2VjcDI1NmsxoQOnpj_fgOcOej9hrY378RHZ_gTAue9CdrS1vKniYME0oYRzbmFwwIN0Y3CCs8qDdWRwgrPK,enr:-KO4QCTSrRy4332XTXwKLsSUpQtAs2audIYUiJ3SVO_s3vr1AnRTWDSrqbPZUogIq7y6fvi9m_sUCoBJJ8ZyRxnBUICGAZpI78Wag2V0aMfGhHhiLCqAgmlkgnY0gmlwhHTKwOCJc2VjcDI1NmsxoQPYBwZhXGFpivcai9ir_awoP0aP4-siOWC3M9eteyNzgIRzbmFwwIN0Y3CCs8yDdWRwgrPM,enr:-KO4QA0TbIYmqtnH_fNMZUIPgVHeVObztyBQadsaHMINdk4RU_LEJllX069959H92sEnPO5De_JUD8wewj_qFs6KsrqGAZpI79Bzg2V0aMfGhHhiLCqAgmlkgnY0gmlwhJBMruuJc2VjcDI1NmsxoQN-xMj5Y9En_GcirJAFfOw0L0h8pFzMKkZLagEV0nZloIRzbmFwwIN0Y3CCs86DdWRwgrPO,enr:-KO4QDTt6ofLIQINVUZ0yy22MPN3bHOFiXhWPujMzvAY_vyrIXBVme83Mdg6vHCqqtlQBMjTE4PoQ4jgsw40C34AQFGGAZpI79t6g2V0aMfGhHhiLCqAgmlkgnY0gmlwhCUb5hKJc2VjcDI1NmsxoQMxrQynsSBzunbhOFtWuXxaxSypb566sv2SEtMDaLHrgoRzbmFwwIN0Y3CCs9CDdWRwgrPQ
+    volumes:
+      - op_geth_data:/geth
+      - jwt_shared:/jwt
+
+  op-node:
+    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:v1.16.0
+    restart: unless-stopped
+    stop_grace_period: 5m
+    container_name: op-node-l2
+    depends_on:
+      op-init-geth:
+        condition: service_completed_successfully
+      op-geth:
+        condition: service_started
+    command:
+      - op-node
+      - --l1=https://eth-hoodi.g.alchemy.com/v2/Fm95eW9pPRpgfHHFbxZED
+      - --l1.beacon.ignore=true
+      - --l1.rpckind=standard
+      - --l1.trustrpc
+      - --l2=http://op-geth:8551
+      - --l2.enginekind=geth
+      - --l2.jwt-secret=/jwt/jwt
+      - --rpc.addr=0.0.0.0
+      - --rpc.port=9545
+      - --p2p.nat=true
+      - --p2p.ban.peers=false
+      - --p2p.bootnodes=enr:-J64QEjuZnnhdD7erAqkaWXZK9MjcOGFaZuCkS2PtVbXIOBeQ8LAbiC4pKRW9WthZHFDDZpxOIHnedKEkMYR0hGRiveGAZpI78WJgmlkgnY0gmlwhI6EzuiHb3BzdGFja4S6ghgAiXNlY3AyNTZrMaEC529jnHbuRNz5xI6cXe9vrzx5i9ds3IEDd4cb7xNE3IGDdGNwgrPJg3VkcIKzyQ,enr:-J64QMN7yPzDIZrWi5YcGP3wdeX3eK1MObNKylITqUOcivHtNoOy5EWTXjvtf9I5-J66bDAKH1xr9PtxH4AXP6FyKJ-GAZpI79URgmlkgnY0gmlwhI6EzviHb3BzdGFja4S6ghgAiXNlY3AyNTZrMaEDckrM3r-1LUbC07AQV0q3D7d5Ixjg-jVo--Q96fEk1NODdGNwgrPLg3VkcIKzyw,enr:-J64QGdww3eqheEScLRM5esX1v-W1F4FvCdgRlGtQ0ppBZWxGHX_OsCwB7VZHZg-l3rS3NF8FiLwlIFzxVtOY-3HHIiGAZpI78nxgmlkgnY0gmlwhHTKwOCHb3BzdGFja4S6ghgAiXNlY3AyNTZrMaEDNcVmbohvjtV9RJRkuxsN8ICZIgYwVFWf-5jcxZcr5TKDdGNwgrPNg3VkcIKzzQ,enr:-J64QFmX2OSLIxBSnfl_M1cKCikpr3G7hDvvTYGPNEtNMv7RCgDCs4XLpXXFYAW-RDMfsilfI4zK_0aKB5lj3XWc9t-GAZpI795RgmlkgnY0gmlwhJBMruuHb3BzdGFja4S6ghgAiXNlY3AyNTZrMaEDHesNSnnks3FCGCFfIrzEMBjoYkAgruN5KD5-LdtbcCiDdGNwgrPPg3VkcIKzzw,enr:-J64QGpQ4Sa1IonjuSJXw9j074wyioX8MIPmD6s2bwfMDiTHWhnUbhE-JwcxKDgrD84Y1-IpyA0cxwnSUHL6f0TPn6yGAZpI7_jMgmlkgnY0gmlwhCUb5hKHb3BzdGFja4S6ghgAiXNlY3AyNTZrMaEDGUW6V37PSSfL2MTUkpAMpyk0Z4Hy22OSsVFIbl2-IIKDdGNwgrPRg3VkcIKz0Q
+      - --p2p.listen.tcp=9222
+      - --p2p.listen.udp=9222
+      - --metrics.enabled
+      - --metrics.addr=0.0.0.0
+      - --metrics.port=7300
+      - --syncmode=execution-layer
+      - --rollup.config=/config/rollup.json
+      - --log.level=info
+    volumes:
+      - jwt_shared:/jwt
+      - op_node_data:/op-node
+      - ./config/hoodi-rollup.json:/config/rollup.json:ro
+
+volumes:
+  jwt_shared:
+  op_geth_data:
+  op_node_data:

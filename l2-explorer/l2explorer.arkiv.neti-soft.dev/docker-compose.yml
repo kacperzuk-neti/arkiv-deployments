@@ -1,0 +1,4 @@
+include:
+  - ./services/docker-compose.proxy.yml
+  - ./services/docker-compose.chain.yml
+  - ./services/docker-compose.explorer.yml
