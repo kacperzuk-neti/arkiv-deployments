@@ -96,7 +96,7 @@ services:
     restart: always
     container_name: "golem-base-indexer"
     env_file:
-      - ./envs/golem-base-indexer.env
+      - ../envs/golem-base-indexer.env
     environment:
       - VIRTUAL_HOST=golem-indexer.kaolin.golem.neti-soft.dev
       - VIRTUAL_PORT=8050
