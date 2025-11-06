@@ -139,7 +139,7 @@ services:
     image: golemnetwork/blockscout-optimism-children-indexer:main
     environment:
       - VIRTUAL_HOST=op.l2explorer.arkiv.neti-soft.dev
-      - VIRTUAL_PORT=3000
+      - VIRTUAL_PORT=8050
       - LETSENCRYPT_HOST=op.l2explorer.arkiv.neti-soft.dev
       - LETSENCRYPT_EMAIL=kacper.zuk@neti-soft.com
 
