@@ -75,7 +75,6 @@ services:
       - backend-dets:/app/dets/
     depends_on:
       - db
-      - redis-db
     links:
       - db:database
 
