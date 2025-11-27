@@ -31,6 +31,9 @@ services:
     environment:
       USER_OPS_INDEXER__DATABASE__CONNECT__URL=postgresql://blockscout:secure_db_password@db:5432/blockscout
 
+  squid-db:
+    environment:
+      POSTGRES_PASSWORD: "secure_db_password"
   l1-processor:
     environment:
       DB_PASSWORD: "secure_db_password"
