@@ -30,3 +30,16 @@ services:
   user-ops-indexer:
     environment:
       USER_OPS_INDEXER__DATABASE__CONNECT__URL=postgresql://blockscout:secure_db_password@db:5432/blockscout
+
+  l1-processor:
+    environment:
+      DB_PASSWORD: "secure_db_password"
+  l2-processor:
+    environment:
+      DB_PASSWORD: "secure_db_password"
+  l3-processor:
+    environment:
+      DB_PASSWORD: "secure_db_password"
+  graphql-engine:
+    environment:
+      DB_PASSWORD: "secure_db_password"

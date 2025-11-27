@@ -1,25 +1,43 @@
 services:
+  squid-db:
+    image: postgres:17
+    user: 2000:2000
+    restart: always
+    command: postgres -c 'max_connections=200' -c 'client_connection_check_interval=60000'
+    volumes:
+      - squid-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blockscout -d blockscout"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   l1-processor:
     image: golemnetwork/subsquid-bridging:ci
     command: sqd process:prod:l1
+    depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
 
   l2-processor:
     image: golemnetwork/subsquid-bridging:ci
     command: sql process:prod:l2
+    depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
 
   l3-processor:
     image: golemnetwork/subsquid-bridging:ci
     command: sql process:prod:l3
+    depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
 
   graphql-engine:
     image: golemnetwork/subsquid-bridging:ci
     command: sql serve:prod
+    depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
     environment:
@@ -27,3 +45,6 @@ services:
       - VIRTUAL_PORT=4350
       - LETSENCRYPT_HOST=squid.l2explorer.arkiv.neti-soft.dev
       - LETSENCRYPT_EMAIL=kacper.zuk@neti-soft.com
+
+volumes:
+  squid-db-data:
