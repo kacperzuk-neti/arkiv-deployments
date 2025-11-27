@@ -15,21 +15,21 @@ services:
 
   l1-processor:
     image: golemnetwork/subsquid-bridging:ci
-    command: sqd process:prod:l1
+    command: sqd process:prod -- L1
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
 
   l2-processor:
     image: golemnetwork/subsquid-bridging:ci
-    command: sql process:prod:l2
+    command: sqd process:prod -- L2
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
 
   l3-processor:
     image: golemnetwork/subsquid-bridging:ci
-    command: sql process:prod:l3
+    command: sqd process:prod -- L3
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
