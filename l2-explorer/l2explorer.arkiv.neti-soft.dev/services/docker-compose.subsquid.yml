@@ -14,6 +14,7 @@ services:
 
   l1-processor:
     image: golemnetwork/subsquid-bridging:ci
+    restart: always
     command: sqd process:prod -- L1
     depends_on: [squid-db]
     env_file:
@@ -21,6 +22,7 @@ services:
 
   l2-processor:
     image: golemnetwork/subsquid-bridging:ci
+    restart: always
     command: sqd process:prod -- L2
     depends_on: [squid-db]
     env_file:
@@ -28,6 +30,7 @@ services:
 
   l3-processor:
     image: golemnetwork/subsquid-bridging:ci
+    restart: always
     command: sqd process:prod -- L3
     depends_on: [squid-db]
     env_file:
@@ -35,6 +38,7 @@ services:
 
   graphql-engine:
     image: golemnetwork/subsquid-bridging:ci
+    restart: always
     command: sql serve:prod
     depends_on: [squid-db]
     env_file:
