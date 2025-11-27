@@ -1,24 +1,24 @@
 services:
   l1-processor:
-    image: golemnetwork/subsquid-bridging
+    image: golemnetwork/subsquid-bridging:ci
     command: sqd process:prod:l1
     env_file:
       - ../envs/subsquid-bridging.env
 
   l2-processor:
-    image: golemnetwork/subsquid-bridging
+    image: golemnetwork/subsquid-bridging:ci
     command: sql process:prod:l2
     env_file:
       - ../envs/subsquid-bridging.env
 
   l3-processor:
-    image: golemnetwork/subsquid-bridging
+    image: golemnetwork/subsquid-bridging:ci
     command: sql process:prod:l3
     env_file:
       - ../envs/subsquid-bridging.env
 
   graphql-engine:
-    image: golemnetwork/subsquid-bridging
+    image: golemnetwork/subsquid-bridging:ci
     command: sql serve:prod
     env_file:
       - ../envs/subsquid-bridging.env
