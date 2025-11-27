@@ -39,7 +39,7 @@ services:
   graphql-engine:
     image: golemnetwork/subsquid-bridging:ci
     restart: always
-    command: sql serve:prod
+    command: sqd serve:prod
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
