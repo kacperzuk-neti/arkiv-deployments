@@ -1,0 +1,29 @@
+services:
+  l1-processor:
+    image: golemnetwork/subsquid-bridging
+    command: sqd process:prod:l1
+    env_file:
+      - ../envs/subsquid-bridging.env
+
+  l2-processor:
+    image: golemnetwork/subsquid-bridging
+    command: sql process:prod:l2
+    env_file:
+      - ../envs/subsquid-bridging.env
+
+  l3-processor:
+    image: golemnetwork/subsquid-bridging
+    command: sql process:prod:l3
+    env_file:
+      - ../envs/subsquid-bridging.env
+
+  graphql-engine:
+    image: golemnetwork/subsquid-bridging
+    command: sql serve:prod
+    env_file:
+      - ../envs/subsquid-bridging.env
+    environment:
+      - VIRTUAL_HOST=squid.l2explorer.arkiv.neti-soft.dev
+      - VIRTUAL_PORT=4350
+      - LETSENCRYPT_HOST=squid.l2explorer.arkiv.neti-soft.dev
+      - LETSENCRYPT_EMAIL=kacper.zuk@neti-soft.com
