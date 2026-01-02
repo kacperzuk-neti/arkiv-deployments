@@ -26,6 +26,7 @@ Arkiv L2 Explorer has a modular, micro-service architecture.
 * `sig-provider` - helper micro-service that maps 4-byte selectors to detailed call & event signatures
 * `user-ops-indexer` - helper micro-service for indexing ERC-4337 operations (account abstraction)
 * `smart-contract-verifier` - helper micro-service for verifying smart contract source code in the Explorer
+* `optimism-children-indexer` - helper micro-service for indexing & mapping L2 <-> L3 deposits and withdrawals
 
 ## Sample deployment
 
@@ -46,6 +47,8 @@ Configuration recommended by us can be found in [the example project](./l2explor
 
 For production deployment, you want to modify the following variables:
 
+* `DATABASE_URL` - `postgresql://` url for DB connection
+* `SECRET_KEY_BASE` - secret key for encrypting cookies
 * `ETHEREUM_JSONRPC_*` - connection parameters to L2 RPC endpoint. Expect a significant load on the endpoint, as it will fetch all blocks, transactions and traces of transactions.
 * `INDEXER_OPTIMISM_L1_RPC` - connection parameters to L1 RPC endpoint. Used for tracking deposits/withdrawals.
 * `MICROSERVICE_*_URL` - connection parameters to micro-services.
@@ -79,6 +82,7 @@ Configuration recommended by us can be found in [the example project](./l2explor
 
 For production deployment, you want to modify the following variables:
 
+* `OPTIMISM_CHILDREN_INDEXER__DATABASE__CONNECT__URL` - `postgres://` url for accessing the database
 * `OPTIMISM_CHILDREN_INDEXER__SERVER__HTTP__CORS__ALLOWED_ORIGIN` - should be set to the origin of the `blockscout-l2-frontend`
 
 #### Registering L3 chains
@@ -107,6 +111,8 @@ Configuration recommended by us can be found in [the example project](./l2explor
 
 For production deployment, you want to modify the following variables:
 
+* `STATS__DB_URL` - URL to the `stats-db`
+* `STATS__BLOCKSCOUT_DB_URL` - URL to the main blockscout database
 * `STATS__BLOCKSCOUT_API_URL=http://backend:4000` - URL to the `blockscout-optimism` service
 * `STATS__SERVER__HTTP__CORS__ALLOWED_ORIGIN` - should be set to the origin of the `blockscout-l2-frontend`
 
@@ -116,6 +122,7 @@ Configuration recommended by us can be found in [the example project](./l2explor
 
 For production deployment, you want to modify the following variables:
 
+* `USER_OPS_INDEXER__DATABASE__CONNECT__URL` - URL to the main blockscout database
 * `USER_OPS_INDEXER__INDEXER__RPC_URL` - URL to an L2 RPC
 
 ## Docker images reference
