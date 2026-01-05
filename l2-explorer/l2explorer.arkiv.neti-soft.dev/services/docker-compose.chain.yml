@@ -83,7 +83,7 @@ services:
         condition: service_started
     command:
       - op-node
-      - --l1=https://eth-hoodi.g.alchemy.com/v2/Fm95eW9pPRpgfHHFbxZED
+      - --l1=https://eth-hoodi.g.alchemy.com/v2/pEFHwmP__uW2VkHi_Q7v-
       - --l1.beacon.ignore=true
       - --l1.rpckind=standard
       - --l1.trustrpc
