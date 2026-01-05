@@ -110,7 +110,7 @@ services:
       - db
     links:
       - db:database
-    image: ghcr.io/blockscout/blockscout-optimism:9.0.2
+    image: ghcr.io/blockscout/blockscout-optimism:9.3.2
     environment:
       - VIRTUAL_HOST=api.l2explorer.arkiv.neti-soft.dev
       - VIRTUAL_PORT=4000
