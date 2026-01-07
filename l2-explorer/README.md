@@ -53,7 +53,6 @@ For production deployment, you want to modify the following variables:
 * `INDEXER_OPTIMISM_L1_RPC` - connection parameters to L1 RPC endpoint. Used for tracking deposits/withdrawals.
 * `MICROSERVICE_*_URL` - connection parameters to micro-services.
 * `PORT` - port to listen on
-* `CORS_ORIGIN` - should be set to the origin of the `blockscout-l2-frontend`
 * `COIN_NAME`, `COUNT`, `CHAIN_ID`, `INDEXER_OPTIMISM_L1_SYSTEM_CONFIG_CONTRACT` - adjust based on the L2 chain details.
 
 ### `blockscout-l2-frontend`
