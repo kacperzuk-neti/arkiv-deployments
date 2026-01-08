@@ -100,7 +100,7 @@ values (
 );
 ```
 
-### `smart-contract-veirifer`
+### `smart-contract-verifier`
 
 Configuration recommended by us can be found in [the example project](./l2explorer.arkiv.neti-soft.dev/envs/smart-contract-verifier.env)
 
