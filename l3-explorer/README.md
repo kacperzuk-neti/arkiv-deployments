@@ -44,7 +44,7 @@ For production deployment, you want to modify the following variables:
 * `DATABASE_URL` - `postgresql://` url for DB connection
 * `SECRET_KEY_BASE` - secret key for encrypting cookies
 * `ETHEREUM_JSONRPC_*` - connection parameters to L3 RPC endpoint. Expect a significant load on the endpoint, as it will fetch all blocks, transactions and traces of transactions.
-* `INDEXER_OPTIMISM_L1_RPC` - connection parameters to L1 RPC endpoint. Used for tracking deposits/withdrawals.
+* `INDEXER_OPTIMISM_L1_RPC` - connection parameters to L2 RPC endpoint. Used for tracking deposits/withdrawals.
 * `PORT` - port to listen on
 * `COIN_NAME`, `COUNT`, `CHAIN_ID`, `INDEXER_OPTIMISM_L1_SYSTEM_CONFIG_CONTRACT` - adjust based on the L3 chain details.
 
@@ -60,8 +60,8 @@ For production deployment, you want to modify the following variables:
 * `NEXT_PUBLIC_NETWORK_RPC_URL` - list of public RPC endpoints for the chain.
 * `NEXT_PUBLIC_API_HOST`, `NEXT_PUBLIC_API_BASE_PATH` - connection parameters to `blockscout-optimism`.
 * `NEXT_PUBLIC_GOLEM_BASE_INDEXER_API_HOST` - URL to the `golem-base-indexer`
-* `NEXT_PUBLIC_ROLLUP_PARENT_CHAIN` - details of the L1 chain
-* `NEXT_PUBLIC_ROLLUP_L1_BASE_URL` - URL to an L1 explorer
+* `NEXT_PUBLIC_ROLLUP_PARENT_CHAIN` - details of the L2 chain
+* `NEXT_PUBLIC_ROLLUP_L1_BASE_URL` - URL to an L2 explorer
 * `NEXT_PUBLIC_STATS_API_HOST` - connection parameters to `stats` micro-service
 * `NEXT_PUBLIC_NETWORK_*` - details of the L3 chain
 * `NEXT_PUBLIC_IS_TESTNET` - is this L3 a testnet
