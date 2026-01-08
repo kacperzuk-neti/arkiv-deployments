@@ -14,12 +14,12 @@ flowchart TD
     blockscout-optimism --> L2RPC[L2 RPC]
 ```
 
-Arkiv L2 Explorer has a modular, micro-service architecture.
+Arkiv L3 Explorer has a modular, micro-service architecture.
 
 * `blockscout-optimism` - main backend service, responsible for indexing the chain and providing APIs
 * `stats` - helper micro-service providing analytics and statistical data
 * `blockscout-frontend` - Next.js web application that's the frontend for the Explorer
-* `Public L2 RPC`, `L2 RPC`, `L1 RPC` - Ethereum-compatible JSON-RPC endpoints to chain nodes
+* `Public L3 RPC`, `L3 RPC`, `L2 RPC` - Ethereum-compatible JSON-RPC endpoints to chain nodes
 * `golem-base-indexer` - helper micro-service for indexing entity operations
 
 ## Sample deployment
