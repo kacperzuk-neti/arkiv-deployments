@@ -128,7 +128,7 @@ For production deployment, you want to modify the following variables:
 
 This project is distributed as a set of Docker images.
 
-* `blockscout-optimism`: `golemnetwork/blockscout-optimism:release-upstream-9.3.2`
+* `blockscout-optimism`: `golemnetwork/blockscout-optimism:release-upstream-456fbc3`
 * `stats`: `ghcr.io/blockscout/stats:v2.12.0`
 * `sig-provider`: `ghcr.io/blockscout/sig-provider:v1.1.1`
 * `smart-contract-verifier`: `ghcr.io/blockscout/smart-contract-verifier:v1.10.3`

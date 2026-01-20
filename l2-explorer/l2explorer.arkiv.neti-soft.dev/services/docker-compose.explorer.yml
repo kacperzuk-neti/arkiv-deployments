@@ -110,7 +110,7 @@ services:
       - db
     links:
       - db:database
-    image: golemnetwork/blockscout-optimism:release-upstream-9.3.2
+    image: golemnetwork/blockscout-optimism:release-upstream-456fbc3
     environment:
       - VIRTUAL_HOST=api.l2explorer.arkiv.neti-soft.dev
       - VIRTUAL_PORT=4000
