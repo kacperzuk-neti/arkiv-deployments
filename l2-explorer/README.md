@@ -64,6 +64,7 @@ Configuration recommended by us can be found in [the example project](./l2explor
 For production deployment, you want to modify the following variables:
 
 * `NEXT_PUBLIC_APP_HOST` - domain the frontend will be running on
+* `NEXT_PUBLIC_ARKIV_API_HOST` - URL to `optimism-children-indexer` service
 * `NEXT_PUBLIC_NETWORK_RPC_URL` - list of public RPC endpoints for the chain.
 * `NEXT_PUBLIC_API_HOST`, `NEXT_PUBLIC_API_BASE_PATH` - connection parameters to `blockscout-optimism`.
 * `NEXT_PUBLIC_ROLLUP_PARENT_CHAIN` - details of the L1 chain
@@ -72,6 +73,7 @@ For production deployment, you want to modify the following variables:
 * `NEXT_PUBLIC_NETWORK_*` - details of the L2 chain
 * `NEXT_PUBLIC_IS_TESTNET` - is this L2 a testnet
 * `NEXT_PUBLIC_ROLLUP_L2_WITHDRAWAL_URL` - URL to an app that allows users to trigger withdrawals from L2 to L1
+* `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`
 
 ### `optimism-children-indexer`
 
@@ -128,10 +130,10 @@ For production deployment, you want to modify the following variables:
 
 This project is distributed as a set of Docker images.
 
-* `blockscout-optimism`: `golemnetwork/blockscout-optimism:release-upstream-456fbc3`
+* `blockscout-optimism`: `golemnetwork/blockscout-optimism:release-2026-01-22`
 * `stats`: `ghcr.io/blockscout/stats:v2.12.0`
 * `sig-provider`: `ghcr.io/blockscout/sig-provider:v1.1.1`
 * `smart-contract-verifier`: `ghcr.io/blockscout/smart-contract-verifier:v1.10.3`
 * `user-ops-indexer`: `ghcr.io/blockscout/user-ops-indexer:v1.4.2`
-* `blockscout-l2-frontend`: `golemnetwork/blockscout-l2-frontend:main`
-* `optimism-children-indexer`: `golemnetwork/blockscout-optimism-children-indexer:main`
+* `blockscout-l2-frontend`: `golemnetwork/blockscout-l2-frontend:release-2026-01-22`
+* `optimism-children-indexer`: `golemnetwork/blockscout-optimism-children-indexer:release-2026-01-22`

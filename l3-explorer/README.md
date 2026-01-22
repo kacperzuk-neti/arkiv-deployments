@@ -102,7 +102,7 @@ For production deployment, you want to modify the following variables:
 
 This project is distributed as a set of Docker images.
 
-* `blockscout-optimism`: `ghcr.io/blockscout/blockscout-optimism:9.0.2`
+* `blockscout-optimism`: `golemnetwork/blockscout-optimism:release-2026-01-22`
 * `stats`: `ghcr.io/blockscout/stats:v2.12.0`
-* `blockscout-frontend`: `golemnetwork/blockscout-frontend:main`
-* `golem-base-indexer`: `golemnetwork/blockscout-golem-base-indexer:main`
+* `blockscout-frontend`: `golemnetwork/blockscout-frontend:release-2026-01-22`
+* `golem-base-indexer`: `golemnetwork/blockscout-golem-base-indexer:release-2026-01-22`
