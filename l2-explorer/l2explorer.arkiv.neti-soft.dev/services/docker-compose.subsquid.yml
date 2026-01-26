@@ -15,7 +15,7 @@ services:
   l1-processor:
     image: golemnetwork/subsquid-bridging:main
     restart: always
-    command: sqd process:prod -- L1
+    command: sqd process:prod -- "Ethereum Hoodi"
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
@@ -23,7 +23,7 @@ services:
   l2-processor:
     image: golemnetwork/subsquid-bridging:main
     restart: always
-    command: sqd process:prod -- L2
+    command: sqd process:prod -- "Arkiv L2"
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
@@ -31,7 +31,7 @@ services:
   l3-processor:
     image: golemnetwork/subsquid-bridging:main
     restart: always
-    command: sqd process:prod -- L3
+    command: sqd process:prod -- "Arkiv Kaolin L3"
     depends_on: [squid-db]
     env_file:
       - ../envs/subsquid-bridging.env
